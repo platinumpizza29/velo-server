@@ -10,6 +10,8 @@ import (
 	"time"
 
 	"velo-server/internal/server"
+
+	"github.com/joho/godotenv"
 )
 
 func gracefulShutdown(apiServer *http.Server, done chan bool) {
@@ -40,6 +42,10 @@ func gracefulShutdown(apiServer *http.Server, done chan bool) {
 func main() {
 
 	server := server.NewServer()
+
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Error while loading the .env or it is missing")
+	}
 
 	// Create a done channel to signal when the shutdown is complete
 	done := make(chan bool, 1)
