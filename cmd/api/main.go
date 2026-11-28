@@ -10,8 +10,6 @@ import (
 	"time"
 
 	"velo-server/internal/server"
-
-	"github.com/joho/godotenv"
 )
 
 func gracefulShutdown(apiServer *http.Server, done chan bool) {
@@ -40,9 +38,9 @@ func gracefulShutdown(apiServer *http.Server, done chan bool) {
 }
 
 func main() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error while loading the .env or it is missing")
-	}
+	// if err := godotenv.Load(); err != nil {
+	// 	log.Fatal("Error while loading the .env or it is missing")
+	// }
 
 	server, err := server.NewServer()
 	if err != nil {
