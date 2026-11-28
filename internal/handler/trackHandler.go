@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -109,6 +110,7 @@ func (h *Handler) GetTracks(
 	)
 
 	if err != nil {
+		log.Printf("list tracks failed: %v", err)
 		writeJSON(w, http.StatusInternalServerError, response{
 			Error: "Failed to retrieve tracks",
 		})
