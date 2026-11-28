@@ -18,8 +18,19 @@ func (s *Server) RegisterRoutes() http.Handler {
 	}))
 
 	r.GET("/", s.HelloWorldHandler)
-
 	r.GET("/health", s.healthHandler)
+
+	api := r.Group("/api/v1")
+	api.POST("/tracks", gin.WrapF(s.music.CreateTrack))
+	api.GET("/tracks", gin.WrapF(s.music.GetTracks))
+	api.GET("/tracks/:id", func(c *gin.Context) {
+		c.Request.SetPathValue("id", c.Param("id"))
+		s.music.GetTrack(c.Writer, c.Request)
+	})
+	api.GET("/tracks/:id/stream", func(c *gin.Context) {
+		c.Request.SetPathValue("id", c.Param("id"))
+		s.music.StreamTrack(c.Writer, c.Request)
+	})
 
 	return r
 }
